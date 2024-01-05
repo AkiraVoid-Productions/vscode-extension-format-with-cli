@@ -1,0 +1,31 @@
+name: Publish extension
+env:
+  VSCE_PAT: ${{ secrets.VS_MARKETPLACE_PUBLISHER_KEY }}
+  VS_MARKETPLACE_PUBLISHER_ID: ${{ secrets.VS_MARKETPLACE_PUBLISHER_ID }}
+  GH_TOKEN: ${{ secrets.ROBOT_TOKEN }}
+  GIT_AUTHOR_NAME: akiravoid-bot
+  GIT_AUTHOR_EMAIL: coding@akiravoid.com
+  GIT_COMMITER_NAME: akiravoid-bot
+  GIT_COMMITER_EMAIL: coding@akiravoid.com
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ROBOT_TOKEN }}
+      - name: Prepare node
+        uses: actions/setup-node@v3
+      - name: Prepare yarn
+        run: corepack enable
+      - name: Install dependencies
+        run: yarn install
+      - name: Build package
+        run: yarn package
+      - name: Publish package
+        run: yarn semantic-release

@@ -1,0 +1,33 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits"
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits"
+      }
+    ],
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/exec",
+      {
+        "verifyRelease": "npm install -g @vscode/vsce && vsce login $VS_MARKETPLACE_PUBLISHER_ID",
+        "prepare": "vsce pack -m \"chore: publish version ${nextRelease.version} to marketplace\" --no-git-tag-version --githubBranch main -o release/format-with-cli.${nextRelease.version}.vsix ${nextRelease.version}",
+        "publish": "vsce publish -m \"chore: publish version ${nextRelease.version} to marketplace\" -i release/format-with-cli.${nextRelease.version}.vsix --no-git-tag-version --githubBranch main ${nextRelease.version}"
+      }
+    ],
+    "@semantic-release/git",
+    [
+      "@semantic-release/github",
+      {
+        "assets": "release/format-with-cli.${nextRelease.version}.vsix"
+      }
+    ]
+  ]
+}
