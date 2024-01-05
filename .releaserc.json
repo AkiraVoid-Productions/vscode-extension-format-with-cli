@@ -17,9 +17,9 @@
     [
       "@semantic-release/exec",
       {
-        "verifyReleaseCmd": "npm install -g @vscode/vsce && vsce login $VS_MARKETPLACE_PUBLISHER_ID",
+        "verifyReleaseCmd": "npm install -g @vscode/vsce",
         "prepareCmd": "vsce pack -m \"chore: publish version ${nextRelease.version} to marketplace\" --no-git-tag-version --githubBranch main -o release/format-with-cli.${nextRelease.version}.vsix ${nextRelease.version}",
-        "publishCmd": "vsce publish -m \"chore: publish version ${nextRelease.version} to marketplace\" -i release/format-with-cli.${nextRelease.version}.vsix --no-git-tag-version --githubBranch main ${nextRelease.version}"
+        "publishCmd": "vsce publish -m \"chore: publish version ${nextRelease.version} to marketplace\" -i release/format-with-cli.${nextRelease.version}.vsix --no-git-tag-version --githubBranch main -p $VSCE_PAT ${nextRelease.version}"
       }
     ],
     "@semantic-release/git",
