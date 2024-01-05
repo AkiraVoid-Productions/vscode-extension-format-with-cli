@@ -5,6 +5,7 @@
     "dbaeumer.vscode-eslint",
     "amodio.tsl-problem-matcher",
     "ms-vscode.extension-test-runner",
-    "streetsidesoftware.code-spell-checker"
+    "streetsidesoftware.code-spell-checker",
+    "AkiraVoid.format-with-cli"
   ]
 }

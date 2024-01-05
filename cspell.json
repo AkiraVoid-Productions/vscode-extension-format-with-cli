@@ -10,6 +10,9 @@
     "webpack.config.js",
     "*.log",
     "yarn.lock",
-    ".yarn/"
-  ]
+    ".yarn/",
+    "vsc-extension-quickstart.md",
+    "cspell.json"
+  ],
+  "useGitignore": true
 }

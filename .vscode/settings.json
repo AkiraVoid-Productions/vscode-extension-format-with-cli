@@ -13,5 +13,6 @@
   // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
   "typescript.tsc.autoDetect": "off",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "AkiraVoid.formatWithCLI.command": "yarn prettier --write --ignore-unknown {file}"
 }
