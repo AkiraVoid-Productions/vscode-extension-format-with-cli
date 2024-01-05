@@ -14,5 +14,5 @@
   "typescript.tsc.autoDetect": "off",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.tabSize": 2,
-  "akiravoid.format-with-cli.command": "yarn prettier --write --ignore-unknown {file}"
+  "AkiraVoid.formatWithCLI.command": "yarn prettier --write --ignore-unknown {file}"
 }

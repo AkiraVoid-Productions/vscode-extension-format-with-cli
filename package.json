@@ -56,9 +56,9 @@
   "contributes": {
     "configuration": [
       {
-        "title": "Common settings",
+        "title": "Format with CLI",
         "properties": {
-          "akiravoid.format-with-cli.command": {
+          "AkiraVoid.formatWithCLI.command": {
             "default": "npx prettier --write --ignore-unknown {file}",
             "type": "string",
             "scope": "language-overridable",

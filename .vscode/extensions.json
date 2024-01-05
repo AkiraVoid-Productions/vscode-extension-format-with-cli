@@ -6,6 +6,6 @@
     "amodio.tsl-problem-matcher",
     "ms-vscode.extension-test-runner",
     "streetsidesoftware.code-spell-checker",
-    "akiravoid.format-with-cli"
+    "AkiraVoid.format-with-cli"
   ]
 }
