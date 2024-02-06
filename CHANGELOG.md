@@ -1,9 +1,14 @@
-## [1.0.1](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.0.0...v1.0.1) (2024-01-05)
+## [1.1.0](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.0.1...v1.1.0) (2024-02-06)
 
+### Features
+
+- support Direct Format ([#4](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/4)) ([286a5ea](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/commit/286a5ea4f2ae9c1cd794c15523fbb8c115a47ca6))
+
+## [1.0.1](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.0.0...v1.0.1) (2024-01-05)
 
 ### Bug Fixes
 
-* solve the problem about settings are not work ([#2](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/2)) ([fb5c662](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/commit/fb5c662618a45587f335e8794ec950121fa24c40))
+- solve the problem about settings are not work ([#2](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/2)) ([fb5c662](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/commit/fb5c662618a45587f335e8794ec950121fa24c40))
 
 ## 1.0.0 (2024-01-05)
 
