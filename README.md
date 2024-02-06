@@ -16,7 +16,8 @@ This "formatter" only has one feature: executes the command set by you when you'
 
 This extension contributes the following settings:
 
-- `AkiraVoid.formatWithCLI.command`: Set the command for formatting. It can contains a placeholder `{file}` which refers to the path of the file to be formatted. The default value is `npx prettier --write --ignore-unknown {file}` since this extension is firstly made to solve the uncomfortable experience when the author is trying to leverage the official prettier extension. This setting can be overridden based on language ID.
+- `AkiraVoid.formatWithCLI.command`: Set the command for formatting. It can contains a placeholder `{file}` which refers to the path of the file to be formatted. Please make note that you should generally surround the {file} placeholder within the double quotes, or the path may be broken. The default value is `npx prettier --ignore-unknown "{file}"` since this extension is initially made to solve the uncomfortable experience when the author is trying to use the official prettier extension. This setting can be overridden based on language ID.
+- `AkiraVoid.formatWithCLI.directFormat`: Enable/Disable Direct Format. The Direct Format leverages vscode-provided API to format a file, instead of leave the file to the formatter CLI itself. It call formatter CLI on a cache file first, then the formatter output the result in standard output, finally, this extension will replace the document with that output. Note that this technology is poor on performance, as it create and remove the cache file every time users try to format. This feature is enabled by default. If you want this feature to be disabled, make sure you've also set the `AkiraVoid.formatWithCLI.command` to a command that could directly change the file. This setting can be overridden based on language ID.
 
 **Example:**
 
@@ -26,10 +27,12 @@ This extension contributes the following settings:
   // ...
 
   // Here is the default command that will be executed on all languages.
-  "AkiraVoid.formatWithCLI.command": "npx prettier --write --ignore-unknown {file}",
+  "AkiraVoid.formatWithCLI.command": "npx prettier --ignore-unknown {file}",
   // Here is the command that will only be executed on C# documents.
   "[csharp]": {
-    "AkiraVoid.formatWithCLI.command": "dotnet csharppier {file}"
+    "AkiraVoid.formatWithCLI.command": "dotnet csharppier {file}",
+    // Disable Direct Format as CSharpier change the files directly.
+    "AkiraVoid.formatWithCLI.directFormat": false
   }
 
   // ...
@@ -38,5 +41,5 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-- If you enabled Format on Save feature of Visual Studio Code and you changed the command setting, then the command which is executed immediately after you saved the configuration will still be the command before. This is caused by the mechanism of Visual Studio Code, and I currently have no idea about how to fix it. If you want this issue to be fixed, open an issue on GitHub and let me know.
-- You must save the file first instead of formatting file first, or you may need to resolve the conflicts.
+- If you enabled Format on Save feature of Visual Studio Code and you changed the command setting, then the command which is executed immediately after you saved the configuration will still be the previous command. This is caused by the mechanism of Visual Studio Code, and I currently have no idea about how to fix it. If you want this issue to be fixed, open an issue on GitHub and let me know.
+- You must save the file first instead of formatting file first if you are not using direct format, or you may need to resolve the conflicts.
