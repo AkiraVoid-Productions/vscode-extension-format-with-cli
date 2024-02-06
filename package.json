@@ -59,11 +59,18 @@
         "title": "Format with CLI",
         "properties": {
           "AkiraVoid.formatWithCLI.command": {
-            "default": "npx prettier --write --ignore-unknown {file}",
+            "default": "npx prettier --ignore-unknown \"{file}\"",
             "type": "string",
             "scope": "language-overridable",
             "title": "Command for formatting",
-            "description": "Set the command for calling formatting current file. The path to current file can be set by placeholder {file}. This command will be executed at an integrated terminal of Visual Studio Code, which uses the workspace folder path as working directory."
+            "description": "Set the command for calling formatting current file. The path to current file can be set by placeholder {file}. This command will be executed at an integrated terminal of Visual Studio Code, which uses the workspace folder path as working directory. Please make note that you should generally surround the {file} placeholder within the double quotes, or the path may be broken."
+          },
+          "AkiraVoid.formatWithCLI.directFormat": {
+            "default": true,
+            "type": "boolean",
+            "scope": "language-overridable",
+            "title": "Enable Direct Format",
+            "description": "The Direct Format leverages vscode-provided API to format a file, instead of leave the file to the formatter CLI itself. It call formatter CLI on a cache file first, then the formatter output the result in standard output, finally, this extension will replace the document with that output."
           }
         }
       }
