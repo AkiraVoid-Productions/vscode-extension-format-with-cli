@@ -1,4 +1,6 @@
 import { execSync } from 'child_process';
+import { rmSync, writeFileSync } from 'fs';
+import path from 'path';
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -28,7 +30,7 @@ const getCommand = (language?: string) =>
       'AkiraVoid.formatWithCLI',
       language ? { languageId: language } : undefined,
     )
-    .get<string>('command', 'npx prettier --ignore-unknown {file}');
+    .get<string>('command', 'npx prettier --ignore-unknown "{file}"');
 
 const isDirectFormatEnabled = (language?: string) =>
   vscode.workspace
@@ -54,10 +56,16 @@ const formatWithFormatter = (doc: vscode.TextDocument) => {
 };
 
 const formatDirectly = (doc: vscode.TextDocument) => {
+  const content = doc.getText();
+  const cacheFile = path.join(
+    vscode.env.appRoot,
+    `.format-with-cli.cache${path.extname(doc.fileName)}`,
+  );
+  const command = getCommand(doc.languageId).replace('{file}', cacheFile);
   try {
-    const output = execSync(
-      getCommand(doc.languageId).replace('{file}', doc.fileName),
-    ).toString('utf-8');
+    writeFileSync(cacheFile, content, { encoding: 'utf-8', flag: 'w' });
+    const output = execSync(command, { windowsHide: false, encoding: 'utf-8' });
+    rmSync(cacheFile);
     const range = new vscode.Range(
       doc.lineAt(0).range.start,
       doc.lineAt(doc.lineCount - 1).range.end,

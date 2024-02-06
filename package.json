@@ -59,7 +59,7 @@
         "title": "Format with CLI",
         "properties": {
           "AkiraVoid.formatWithCLI.command": {
-            "default": "npx prettier --ignore-unknown {file}",
+            "default": "npx prettier --ignore-unknown \"{file}\"",
             "type": "string",
             "scope": "language-overridable",
             "title": "Command for formatting",
