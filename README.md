@@ -39,7 +39,7 @@ This extension contributes the following settings:
 }
 ```
 
-> [NOTE]
+> [!NOTE]
 > We kindly suggest that you should add `*format-with-cli.cache*` into the `.*ignore` files in case we failed to delete this cache file after each formatting.
 
 ## Known Issues
