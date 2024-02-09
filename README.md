@@ -39,6 +39,9 @@ This extension contributes the following settings:
 }
 ```
 
+> [NOTE]
+> We kindly suggest that you should add `*format-with-cli.cache*` into the `.*ignore` files in case we failed to delete this cache file after each formatting.
+
 ## Known Issues
 
 - If you enabled Format on Save feature of Visual Studio Code and you changed the command setting, then the command which is executed immediately after you saved the configuration will still be the previous command. This is caused by the mechanism of Visual Studio Code, and I currently have no idea about how to fix it. If you want this issue to be fixed, open an issue on GitHub and let me know.
