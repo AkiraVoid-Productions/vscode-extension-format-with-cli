@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.1.0...v1.1.1) (2024-02-09)
+
+### Bug Fixes
+
+- resolve a problem that configuration file of formatter is ignored ([#6](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/6)) ([d17a5c9](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/commit/d17a5c9ff4c2640b161e4c1fd1d8a59aed489023)), closes [#5](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/5)
+
 ## [1.1.0](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.0.1...v1.1.0) (2024-02-06)
 
 ### Features
