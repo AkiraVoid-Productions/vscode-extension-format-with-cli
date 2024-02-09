@@ -11,6 +11,12 @@ export function activate(context: vscode.ExtensionContext) {
       languages.map(language => ({ language })),
       {
         provideDocumentFormattingEdits(doc) {
+          if (doc.uri.scheme !== 'file') {
+            throw new TypeError(
+              'Format with CLI currently does not support formatting documents that are not local files.',
+            );
+          }
+
           if (!isDirectFormatEnabled()) {
             return formatWithFormatter(doc);
           }
@@ -57,14 +63,19 @@ const formatWithFormatter = (doc: vscode.TextDocument) => {
 
 const formatDirectly = (doc: vscode.TextDocument) => {
   const content = doc.getText();
+  const workspaceRoot = getWorkspaceRootOfDocument(doc);
   const cacheFile = path.join(
-    vscode.env.appRoot,
-    `.format-with-cli.cache${path.extname(doc.fileName)}`,
+    workspaceRoot,
+    `.~format-with-cli.cache${path.extname(doc.fileName)}`,
   );
   const command = getCommand(doc.languageId).replace('{file}', cacheFile);
   try {
     writeFileSync(cacheFile, content, { encoding: 'utf-8', flag: 'w' });
-    const output = execSync(command, { windowsHide: false, encoding: 'utf-8' });
+    const output = execSync(command, {
+      windowsHide: false,
+      encoding: 'utf-8',
+      cwd: workspaceRoot,
+    });
     rmSync(cacheFile);
     const range = new vscode.Range(
       doc.lineAt(0).range.start,
@@ -75,4 +86,42 @@ const formatDirectly = (doc: vscode.TextDocument) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const getWorkspaceRootOfDocument = (doc: vscode.TextDocument) => {
+  let root = undefined;
+  let searchingPath = path.dirname(doc.fileName);
+  let isWindows = false;
+  if (searchingPath.includes('\\')) {
+    isWindows = true;
+
+    /** For supporting `vscode.workspace.getWorkspaceFolder()`. */
+    searchingPath = searchingPath.replaceAll('\\', '/');
+  }
+
+  while (root === undefined && searchingPath !== '.') {
+    const searchingUri = vscode.Uri.from({
+      scheme: 'file',
+      path: searchingPath,
+    });
+    const workspaceFolder = vscode.workspace.getWorkspaceFolder(searchingUri);
+    if (workspaceFolder) {
+      root = workspaceFolder.uri.fsPath;
+      break;
+    }
+
+    const nextPath = path.dirname(searchingPath);
+    if (searchingPath === nextPath) {
+      /** Need this validation since the `path.dirname()` may not return `.` on Windows. */
+      break;
+    }
+
+    searchingPath = nextPath;
+  }
+
+  if (root === undefined) {
+    return vscode.env.appRoot;
+  }
+
+  return isWindows ? root.replaceAll('/', '\\') : root;
 };
