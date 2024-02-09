@@ -112,7 +112,10 @@ const getWorkspaceRootOfDocument = (doc: vscode.TextDocument) => {
 
     const nextPath = path.dirname(searchingPath);
     if (searchingPath === nextPath) {
-      /** Need this validation since the `path.dirname()` may not return `.` on Windows. */
+      /**
+       * Need this validation since the `path.dirname()` may not return `.` on
+       * Windows.
+       */
       break;
     }
 

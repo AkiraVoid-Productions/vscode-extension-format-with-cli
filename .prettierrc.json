@@ -2,5 +2,6 @@
   "tabWidth": 2,
   "arrowParens": "avoid",
   "semi": true,
-  "singleQuote": true
+  "singleQuote": true,
+  "plugins": ["./node_modules/prettier-plugin-jsdoc/dist/index.js"]
 }
