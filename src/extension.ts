@@ -3,24 +3,31 @@ import { rmSync, writeFileSync } from 'fs';
 import path from 'path';
 import * as vscode from 'vscode';
 
-export function activate(context: vscode.ExtensionContext) {
-  console.log('Format with CLI is now active!');
+const outputChannel = vscode.window.createOutputChannel('Format with CLI', {
+  log: true,
+});
 
+export function activate(context: vscode.ExtensionContext) {
+  outputChannel.info('Activating Format with CLI...');
   vscode.languages.getLanguages().then(languages => {
     let disposable = vscode.languages.registerDocumentFormattingEditProvider(
       languages.map(language => ({ language })),
       {
         provideDocumentFormattingEdits(doc) {
           if (doc.uri.scheme !== 'file') {
-            throw new TypeError(
+            const error = new TypeError(
               'Format with CLI currently does not support formatting documents that are not local files.',
             );
+            outputChannel.error(error);
+            throw error;
           }
 
           if (!isDirectFormatEnabled()) {
+            outputChannel.info('Direct Format disabled.');
             return formatWithFormatter(doc);
           }
 
+          outputChannel.info('Direct Format enabled.');
           return formatDirectly(doc);
         },
       },
@@ -28,6 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(disposable);
   });
+  outputChannel.info('Format with CLI activated!');
 }
 
 const getCommand = (language?: string) =>
@@ -51,24 +59,31 @@ const formatWithFormatter = (doc: vscode.TextDocument) => {
     vscode.window.terminals.find(t => t.name === 'Format with CLI') ??
     vscode.window.createTerminal('Format with CLI');
   terminal.hide();
+  outputChannel.debug(
+    `Format with CLI specified terminal created. Name: ${terminal.name}; Process ID: ${terminal.processId}; State: ${terminal.state}.`,
+  );
   try {
-    terminal.sendText(
-      getCommand(doc.languageId).replace('{file}', doc.fileName),
-    );
+    const command = getCommand(doc.languageId).replace('{file}', doc.fileName);
+    terminal.sendText(command);
+    outputChannel.info(`Command ${command} executed.`);
     return [];
   } catch (error) {
-    console.error(error);
+    outputChannel.error(error as Error);
   }
 };
 
 const formatDirectly = (doc: vscode.TextDocument) => {
   const content = doc.getText();
   const workspaceRoot = getWorkspaceRootOfDocument(doc);
+  outputChannel.debug(`The cache root is "${workspaceRoot}".`);
   const cacheFile = path.join(
     workspaceRoot,
     `.~format-with-cli.cache${path.extname(doc.fileName)}`,
   );
   const command = getCommand(doc.languageId).replace('{file}', cacheFile);
+  outputChannel.info(
+    `Will run the command "${command}" to format the document "${doc.fileName}".`,
+  );
   try {
     writeFileSync(cacheFile, content, { encoding: 'utf-8', flag: 'w' });
     const output = execSync(command, {
@@ -76,15 +91,23 @@ const formatDirectly = (doc: vscode.TextDocument) => {
       encoding: 'utf-8',
       cwd: workspaceRoot,
     });
+    outputChannel.debug(`The result is:\r\n${output}`);
     rmSync(cacheFile);
+    if (output === '') {
+      /** Only edit document if there is output from formatter. */
+      return [];
+    }
+
     const range = new vscode.Range(
       doc.lineAt(0).range.start,
       doc.lineAt(doc.lineCount - 1).range.end,
     );
     const edit = vscode.TextEdit.replace(range, output);
+    outputChannel.info('Document formatted.');
     return [edit];
   } catch (error) {
-    console.error(error);
+    rmSync(cacheFile);
+    outputChannel.error(error as Error);
   }
 };
 
@@ -123,6 +146,9 @@ const getWorkspaceRootOfDocument = (doc: vscode.TextDocument) => {
   }
 
   if (root === undefined) {
+    outputChannel.warn(
+      'The formatter is not running in a workspace, some functions may be restricted.',
+    );
     return vscode.env.appRoot;
   }
 
