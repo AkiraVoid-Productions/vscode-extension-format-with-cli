@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.1.1...v1.1.2) (2024-02-11)
+
+### Bug Fixes
+
+- resolve an issue that documents may be replaced by empty output from an incorrect formatter command ([#7](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/7)) ([63d7512](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/commit/63d7512aba336cef7932cc3a906a32140e3e5477))
+
 ## [1.1.1](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.1.0...v1.1.1) (2024-02-09)
 
 ### Bug Fixes
