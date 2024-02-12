@@ -87,7 +87,7 @@ const formatDirectly = (doc: vscode.TextDocument) => {
   try {
     writeFileSync(cacheFile, content, { encoding: 'utf-8', flag: 'w' });
     const output = execSync(command, {
-      windowsHide: false,
+      windowsHide: true,
       encoding: 'utf-8',
       cwd: workspaceRoot,
     });

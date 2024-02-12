@@ -40,7 +40,8 @@ This extension contributes the following settings:
 ```
 
 > [!NOTE]
-> We kindly suggest that you should add `*format-with-cli.cache*` into the `.*ignore` files in case we failed to delete this cache file after each formatting.
+>
+> We kindly suggest that you should add `*format-with-cli.cache*` into the `.*ignore` files in case we failed to delete this cache file after each formatting. But, as some formatters will ignore the files in `.gitignore` (such as Prettier), remember do not add cache file into it, or all documents won't get formatted when Direct Format is on.
 
 ## Known Issues
 
