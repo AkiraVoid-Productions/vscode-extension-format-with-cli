@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
             throw error;
           }
 
-          if (!isDirectFormatEnabled()) {
+          if (!isDirectFormatEnabled(doc.languageId)) {
             outputChannel.info('Direct Format disabled.');
             return formatWithFormatter(doc);
           }
