@@ -14,6 +14,9 @@
   "typescript.tsc.autoDetect": "off",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.tabSize": 2,
-  "AkiraVoid.formatWithCLI.command": "npx prettier --ignore-unknown \"{file}\"",
-  "AkiraVoid.formatWithCLI.directFormat": true
+  "[typescript]": {
+    "AkiraVoid.formatWithCLI.command": "npx prettier --ignore-unknown \"{file}\"",
+    "AkiraVoid.formatWithCLI.directFormat": true
+  },
+  "editor.defaultFormatter": "AkiraVoid.format-with-cli"
 }
