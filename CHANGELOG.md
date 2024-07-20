@@ -1,3 +1,9 @@
+## [1.1.3](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.1.2...v1.1.3) (2024-07-20)
+
+### Bug Fixes
+
+- solve a problem that the setting about Direct Format is ignored ([#12](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/12)) ([753215f](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/commit/753215f452339f31abd639370f5647b248a18f35)), closes [#11](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/11)
+
 ## [1.1.2](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.1.1...v1.1.2) (2024-02-11)
 
 ### Bug Fixes
