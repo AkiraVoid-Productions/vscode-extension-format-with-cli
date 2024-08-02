@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
   outputChannel.info('Format with CLI activated!');
 }
 
-const getCommand = (language?: string) =>
+const getCommand = (language: string) =>
   vscode.workspace
     .getConfiguration(
       'AkiraVoid.formatWithCLI',
@@ -63,7 +63,10 @@ const formatWithFormatter = (doc: vscode.TextDocument) => {
     `Format with CLI specified terminal created. Name: ${terminal.name}; Process ID: ${terminal.processId}; State: ${terminal.state}.`,
   );
   try {
-    const command = getCommand(doc.languageId).replace('{file}', doc.fileName);
+    const command = getCommand(doc.languageId).replaceAll(
+      '{file}',
+      doc.fileName,
+    );
     terminal.sendText(command);
     outputChannel.info(`Command ${command} executed.`);
     return [];
@@ -80,7 +83,7 @@ const formatDirectly = (doc: vscode.TextDocument) => {
     workspaceRoot,
     `.~format-with-cli.cache${path.extname(doc.fileName)}`,
   );
-  const command = getCommand(doc.languageId).replace('{file}', cacheFile);
+  const command = getCommand(doc.languageId).replaceAll('{file}', cacheFile);
   outputChannel.info(
     `Will run the command "${command}" to format the document "${doc.fileName}".`,
   );
