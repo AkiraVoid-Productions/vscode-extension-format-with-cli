@@ -3,10 +3,16 @@ import { rmSync, writeFileSync } from 'fs';
 import path from 'path';
 import * as vscode from 'vscode';
 
+/** The output channel of Visual Studio Code. Program logs are logged here. */
 const outputChannel = vscode.window.createOutputChannel('Format with CLI', {
   log: true,
 });
 
+/**
+ * The main entry point of this extension.
+ *
+ * @param context The Visual Studio Code extension context.
+ */
 export function activate(context: vscode.ExtensionContext) {
   outputChannel.info('Activating Format with CLI...');
   vscode.languages.getLanguages().then(languages => {
@@ -38,6 +44,12 @@ export function activate(context: vscode.ExtensionContext) {
   outputChannel.info('Format with CLI activated!');
 }
 
+/**
+ * Get the main command for formatting document from settings.
+ *
+ * @param language The language ID of the document to format.
+ * @returns The main command for formatting document.
+ */
 const getCommand = (language: string) =>
   vscode.workspace
     .getConfiguration(
@@ -46,6 +58,15 @@ const getCommand = (language: string) =>
     )
     .get<string>('command', 'npx prettier --ignore-unknown "{file}"');
 
+/**
+ * Get a value that indicates whether if the Direct Format is enabled for
+ * specified language or by default.
+ *
+ * @param language The language that may have Direct Format enabled or not, or
+ *   `undefined` for retrieving default setting.
+ * @returns `true` if Direct Format is enabled for the language or by default,
+ *   otherwise `false`.
+ */
 const isDirectFormatEnabled = (language?: string) =>
   vscode.workspace
     .getConfiguration(
@@ -54,6 +75,13 @@ const isDirectFormatEnabled = (language?: string) =>
     )
     .get<boolean>('directFormat', true);
 
+/**
+ * Format the document with CLI command.
+ *
+ * @param doc The document to be formatted.
+ * @returns This method always returns `[]` to prevent Visual Studio Code from
+ *   changing document content after it was formatted by CLI command.
+ */
 const formatWithFormatter = (doc: vscode.TextDocument) => {
   const terminal =
     vscode.window.terminals.find(t => t.name === 'Format with CLI') ??
@@ -75,6 +103,13 @@ const formatWithFormatter = (doc: vscode.TextDocument) => {
   }
 };
 
+/**
+ * Format document with the current (unsaved) text directly.
+ *
+ * @param doc The document to be formatted.
+ * @returns The edit information with formatted content for Visual Studio Code
+ *   to edit the document.
+ */
 const formatDirectly = (doc: vscode.TextDocument) => {
   const content = doc.getText();
   const workspaceRoot = getWorkspaceRootOfDocument(doc);
@@ -114,6 +149,14 @@ const formatDirectly = (doc: vscode.TextDocument) => {
   }
 };
 
+/**
+ * Get the path to the root of the workspace which contains the document to be
+ * formatted.
+ *
+ * @param doc The document to be formatted.
+ * @returns The path to the root of the workspace if there's a workspace,
+ *   otherwise the path to the Visual Studio Code app root.
+ */
 const getWorkspaceRootOfDocument = (doc: vscode.TextDocument) => {
   let root = undefined;
   let searchingPath = path.dirname(doc.fileName);
