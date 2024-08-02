@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.1.3...v1.2.0) (2024-08-02)
+
+### Features
+
+- support using {file} placeholder multiple times in command ([#17](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/17)) ([b208b68](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/commit/b208b6829c994cc4b0fe8e42504007920ef54db4)), closes [#14](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/14) [#16](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/issues/16)
+
 ## [1.1.3](https://github.com/AkiraVoid-Productions/vscode-extension-format-with-cli/compare/v1.1.2...v1.1.3) (2024-07-20)
 
 ### Bug Fixes
